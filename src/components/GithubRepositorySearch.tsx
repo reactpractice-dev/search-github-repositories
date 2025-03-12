@@ -4,7 +4,13 @@ import { FormEvent, useState } from "react";
 
 const GithubRepositorySearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { isPending, error, data } = useSearchRepositories(searchQuery);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const { isPending, error, data } = useSearchRepositories({
+    searchQuery,
+    page,
+    perPage,
+  });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

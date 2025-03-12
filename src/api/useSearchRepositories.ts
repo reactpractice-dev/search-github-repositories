@@ -11,20 +11,30 @@ export type GithubRepository = {
   updated_at: string;
 };
 
-async function getRepositories(searchQuery: string) {
-  //   return mockData;
+type SearchRepositoriesParams = {
+  searchQuery: string;
+  page: number;
+  perPage: number;
+};
+
+async function getRepositories(params: SearchRepositoriesParams) {
+  const urlParams = new URLSearchParams({
+    q: params.searchQuery,
+    page: params.page.toString(),
+    per_page: params.perPage.toString(),
+  });
   const response = await fetch(
-    `https://api.github.com/search/repositories?q=${searchQuery}`
+    `https://api.github.com/search/repositories?q=${urlParams}`
   );
   const data = await response.json();
   return data;
 }
 
-function useSearchRepositories(searchQuery: string) {
+function useSearchRepositories(params: SearchRepositoriesParams) {
   return useQuery<{ items: GithubRepository[] }>({
-    queryKey: ["repository-search", searchQuery],
-    queryFn: () => getRepositories(searchQuery),
-    enabled: searchQuery !== "",
+    queryKey: ["repository-search", params],
+    queryFn: () => getRepositories(params),
+    enabled: params.searchQuery !== "",
     initialData: { items: [] },
   });
 }
