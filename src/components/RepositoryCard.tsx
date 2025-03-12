@@ -1,13 +1,5 @@
 import dayjs from "dayjs";
-
-type GithubRepository = {
-  full_name: string;
-  html_url: string;
-  description: string;
-  stargazers_count: number;
-  topics: string[];
-  updated_at: string;
-};
+import { GithubRepository } from "../api/useSearchRepositories";
 
 // e.g. "2025-03-08T02:32:22Z"
 const formatDate = (date: string) => {
@@ -15,7 +7,6 @@ const formatDate = (date: string) => {
 };
 
 const RepositoryCard: React.FC<{ repo: GithubRepository }> = ({ repo }) => {
-  console.log(repo);
   return (
     <div className="border border-gray-300 p-4 my-3 rounded">
       <a
@@ -27,7 +18,10 @@ const RepositoryCard: React.FC<{ repo: GithubRepository }> = ({ repo }) => {
       <p>{repo.description}</p>
       <div className="mt-2">
         {repo.topics.map((topic: string) => (
-          <span className="bg-blue-100 mr-1 rounded text-blue-700 p-1 text-xs leading-7">
+          <span
+            key={topic}
+            className="bg-blue-100 mr-1 rounded text-blue-700 p-1 text-xs leading-7"
+          >
             {topic}
           </span>
         ))}
