@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-// import mockData from "../mock-data.json";
+import mockData from "../mock-data.json";
 
 export type GithubRepository = {
   id: string;
@@ -11,6 +11,12 @@ export type GithubRepository = {
   updated_at: string;
 };
 
+export type RespositorySearchResult = {
+  total_count: number;
+  incomplete_results: boolean;
+  items: GithubRepository[];
+};
+
 type SearchRepositoriesParams = {
   searchQuery: string;
   page: number;
@@ -18,6 +24,7 @@ type SearchRepositoriesParams = {
 };
 
 async function getRepositories(params: SearchRepositoriesParams) {
+  return mockData;
   const urlParams = new URLSearchParams({
     q: params.searchQuery,
     page: params.page.toString(),
@@ -31,11 +38,11 @@ async function getRepositories(params: SearchRepositoriesParams) {
 }
 
 function useSearchRepositories(params: SearchRepositoriesParams) {
-  return useQuery<{ items: GithubRepository[] }>({
+  return useQuery<RespositorySearchResult>({
     queryKey: ["repository-search", params],
     queryFn: () => getRepositories(params),
     enabled: params.searchQuery !== "",
-    initialData: { items: [] },
+    initialData: { items: [], total_count: 0, incomplete_results: false },
   });
 }
 

@@ -1,4 +1,5 @@
 import { useSearchRepositories } from "../api/useSearchRepositories";
+import Pagination from "./Pagination";
 import RepositoryCard from "./RepositoryCard";
 import { FormEvent, useState } from "react";
 
@@ -37,6 +38,12 @@ const GithubRepositorySearch = () => {
       {data?.items?.map((repo) => (
         <RepositoryCard key={repo.id} repo={repo} />
       ))}
+      <Pagination
+        currentPage={page}
+        perPage={perPage}
+        totalCount={data?.total_count}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
     </div>
   );
 };
