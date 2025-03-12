@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import mockData from "../mock-data.json";
+// import mockData from "../mock-data.json";
 
 export type GithubRepository = {
   id: string;
@@ -24,7 +24,7 @@ type SearchRepositoriesParams = {
 };
 
 async function getRepositories(params: SearchRepositoriesParams) {
-  return mockData;
+  //   return mockData;
   const urlParams = new URLSearchParams({
     q: params.searchQuery,
     page: params.page.toString(),
